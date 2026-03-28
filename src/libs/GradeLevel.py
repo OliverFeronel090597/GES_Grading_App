@@ -1,7 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QApplication
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QApplication, QPushButton
 from PyQt6.QtCore import Qt
 from libs.DatabaseConnector import DatabaseConnector
 from libs.CustomQtable import SmartTable
+from forms.AddGradeLevel import AddGradeLevel
+
 import sys
 
 
@@ -17,6 +19,8 @@ class GradeLevelMaster(QWidget):
         self.setWindowTitle("Academic Master Data")
         self.db = db
 
+        self.add_grade_level = AddGradeLevel()
+
         self.main_layout = QHBoxLayout()
         self.setLayout(self.main_layout)
 
@@ -26,9 +30,6 @@ class GradeLevelMaster(QWidget):
         self.init_grade_table()
 
     def init_grade_table(self):
-        """
-        Sets up the grade-level table with sample data.
-        """
         table_layout = QVBoxLayout()
         self.main_layout.addLayout(table_layout)
 
@@ -36,16 +37,15 @@ class GradeLevelMaster(QWidget):
         title_label.setObjectName("MasterTitle")
         table_layout.addWidget(title_label)
 
-        # Create SmartTable for grades
         self.grade_table = SmartTable(
             parent=self,
             enable_context_menu=True,
-            enable_double_click=False
+            enable_double_click=False,
+            enable_vertical_header=False
         )
-        self.grade_table.setObjectName("MasterTable")  # for consistent QSS styling
+        self.grade_table.setObjectName("MasterTable")
         table_layout.addWidget(self.grade_table)
 
-        # Set callbacks
         self.grade_table.set_actions(
             add=self.add_grade,
             edit=self.edit_grade,
@@ -53,34 +53,22 @@ class GradeLevelMaster(QWidget):
             double_click=self.on_grade_double_click
         )
 
-        # Sample grade-level data
-        grade_data = [
-            ["Kinder 1", "A", "Ms. Navarro"],
-            ["Kinder 1", "B", "Mr. Dela Cruz"],
-            ["Kinder 2", "A", "Ms. Santos"],
-            ["Kinder 2", "B", "Mr. Lim"],
-            ["Grade 1", "A", "Ms. Reyes"],
-            ["Grade 1", "B", "Mr. Gomez"],
-            ["Grade 2", "A", "Ms. Cruz"],
-            ["Grade 2", "B", "Ms. Martinez"],
-            ["Grade 3", "A", "Mr. Santos"],
-            ["Grade 3", "B", "Ms. Navarro"],
-            ["Grade 4", "A", "Mr. Lim"],
-            ["Grade 4", "B", "Ms. Reyes"],
-            ["Grade 5", "A", "Mr. Gomez"],
-            ["Grade 5", "B", "Ms. Cruz"],
-            ["Grade 6", "A", "Ms. Martinez"],
-            ["Grade 6", "B", "Mr. Dela Cruz"],
-        ]
-        headers = ["GradeLevel", "Section", "Advisor"]
+        # -----------------------------
+        # LOAD HEADERS + VALUES FROM DB
+        # -----------------------------
+        table_info = self.db.get_table_info("Levels")
+        headers = [col["name"] for col in table_info]   # ['ID','LevelName','Category']
 
-        self.grade_table.update_data(grade_data, headers)
+        raw_rows = self.db.get_levels()                 # list of dicts
+        values = [[row[h] for h in headers] for row in raw_rows]
+
+        self.grade_table.update_data(values, headers)
 
     # -----------------------------
     # Context menu callbacks
     # -----------------------------
     def add_grade(self):
-        print("Add grade clicked")
+        self.add_grade_level.show()
 
     def edit_grade(self, row_index):
         row_index = int(row_index)

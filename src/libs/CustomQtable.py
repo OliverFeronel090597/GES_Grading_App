@@ -12,6 +12,7 @@ class SmartTable(QTableWidget):
         - Double-click callback
         - Row-only clearing
         - Automatic data + header loading
+        - Optional search/filter by column or text
 
     Main Features:
         ✔ Alternating row colors
@@ -21,6 +22,7 @@ class SmartTable(QTableWidget):
         ✔ Optional double-click callback
         ✔ Clear rows but keep headers
         ✔ Simple callbacks for Add/Edit/Delete/Double-click
+        ✔ Search/filter rows dynamically
 
     Args:
         parent (QWidget | None):
@@ -45,14 +47,21 @@ class SmartTable(QTableWidget):
             headers=["ID", "Name"]
         )
 
+        # Filter by specific column
+        table.search("Item", column="Name")
+
+        # Filter by all columns
+        table.search("1")
+
         table.clear_table()   # clears rows only
     """
-
     def __init__(
         self,
         parent=None,
         enable_context_menu=True,
         enable_double_click=True,
+        enable_vertical_header=True,
+        
     ):
         """Initialize SmartTable and configure UI behavior."""
         super().__init__(parent)
@@ -81,6 +90,9 @@ class SmartTable(QTableWidget):
         self.cb_double_click = None
         if enable_double_click:
             self.itemDoubleClicked.connect(self._on_double_click)
+
+        #Virtical Header
+        self.verticalHeader().setVisible(enable_vertical_header)
 
         # Right-click menu callbacks
         self.cb_add = None
@@ -230,3 +242,34 @@ class SmartTable(QTableWidget):
 
         if self.cb_double_click:
             self.cb_double_click(item.row())
+
+    # -------------------------------------------------------------
+    # PUBLIC: Search/filter table
+    # -------------------------------------------------------------
+    def search(self, text: str, column: str = None):
+        """
+        Filter the table rows by text.
+
+        Args:
+            text (str): Text to search for (case-insensitive).
+            column (str | None): Column name to filter by. If None, searches all columns.
+        """
+        text_lower = text.lower()
+        for r in range(self.rowCount()):
+            match = False
+            # If column is specified, find its index
+            if column and column in [self.horizontalHeaderItem(c).text() for c in range(self.columnCount())]:
+                c_idx = [self.horizontalHeaderItem(c).text() for c in range(self.columnCount())].index(column)
+                item = self.item(r, c_idx)
+                if item and text_lower in item.text().lower():
+                    match = True
+            else:
+                # Search all columns
+                for c in range(self.columnCount()):
+                    item = self.item(r, c)
+                    if item and text_lower in item.text().lower():
+                        match = True
+                        break
+
+            # Show or hide the row
+            self.setRowHidden(r, not match)

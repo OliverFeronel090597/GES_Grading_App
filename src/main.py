@@ -16,6 +16,9 @@ from libs.Globalenentfilter         import GlobalActivityLogger
 from libs.Home                      import HomeWidget
 from libs.AcademicMasterData        import AcademicMasterData
 
+
+from libs.GetSchoolYear             import get_current_school_year
+
 # -------------------- MAIN WINDOW --------------------
 class GES_StudentGrading(QMainWindow):
     def __init__(self):
@@ -361,7 +364,7 @@ class GES_StudentGrading(QMainWindow):
         self.login_type.setObjectName("statusUser")  # QSS target
 
         # CENTER
-        self.connected_device = QLabel("Devices: 0")
+        self.connected_device = QLabel(f"SY : {get_current_school_year()}")
         self.connected_device.setObjectName("statusCenter")  # QSS target
         self.connected_device.setAlignment(Qt.AlignmentFlag.AlignCenter)
 

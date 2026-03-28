@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt
 from libs.DatabaseConnector import DatabaseConnector
 from libs.AddStudents import StudentMasterData
 from libs.AddSubject import GradeSubject
-from libs.AddGradeLevel import GradeLevelMaster
+from libs.GradeLevel import GradeLevelMaster
 import sys
 
 
@@ -25,19 +25,21 @@ class AcademicMasterData(QWidget):
         self.initUI()
 
     def initUI(self):
-        add_students = StudentMasterData(
-            self.db
-        )
-        grade_subject = GradeSubject(
-            self.db
-        )
         grade_level = GradeLevelMaster(
             self.db
         )
 
-        self.main_layout.addWidget(add_students)
-        self.main_layout.addWidget(grade_subject)
+        grade_subject = GradeSubject(
+            self.db
+        )
+
+        add_students = StudentMasterData(
+            self.db
+        )
+
         self.main_layout.addWidget(grade_level)
+        self.main_layout.addWidget(grade_subject)
+        self.main_layout.addWidget(add_students)
 
 
 if __name__ == "__main__":
