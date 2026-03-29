@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QApplication
 from PyQt6.QtCore import Qt
-from libs.DatabaseConnector import DatabaseConnector
-from libs.CustomQtable import SmartTable
+from layouts.DatabaseConnector import DatabaseConnector
+from layouts.CustomQtable import SmartTable
 import sys
 
 

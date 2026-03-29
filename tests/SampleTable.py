@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem
 )
 import sys
-from ..libs.CustomQtable import SmartTable
+from ..layouts.CustomQtable import SmartTable
 
 class ListSample(QWidget):
     def __init__(self):

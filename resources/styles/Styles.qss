@@ -1,0 +1,282 @@
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+QWidget#central { 
+    background-color: #fafafa;
+    }
+QWidget#nav{
+    background-color: #4c8ccd; 
+    }
+
+QFrame[role="SlideNotification"] {
+    background-color: #82d0e7;
+    border-radius: 8px;
+    padding: 4px;
+    font-size: 14px;
+    border: 2px solid #0078d7;
+}
+
+QLabel[role="SlideNotificationLabel"] {
+    background-color: transparent;
+    color: #000000;
+    border-radius: 8px;
+    padding: 2px;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+}
+
+QToolTip {
+    background-color: #2c2f33;
+    color: white;
+    font-size: 15px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+QLabel#imagelabel { border: 1px solid #fafafa; }
+
+QTextEdit#qoute {
+    background-color: #f53030;
+    color: #2c2f33;
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+QLabel#date {
+    color: #ffffff;
+    font-size: 70px;
+    background-color: #0368ff;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 0px 10px;
+}
+
+QLabel#time {
+    color: #ffffff;
+    font-size: 70px;
+    background-color: #0368ff;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 0px 10px;
+}
+
+QLabel#schoolName {
+    color: #ffffff;
+    font-size: 60px;
+    font-weight: bold;
+    background-color: #0368ff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+
+QLabel#schoolLocation {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #0368ff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+}
+
+QLabel#dragImage { 
+    background: #ddd; 
+    border-radius: 150px; 
+}
+
+
+/* Table Styles */
+QTableWidget#MasterTable {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    gridline-color: #e5e5e5;
+    color: #000000;
+    outline: 0; /* removes table focus rectangle */
+}
+
+QTableWidget#MasterTable::item {
+    padding: 4px;
+    border: none; /* remove default cell border */
+}
+
+QTableWidget#MasterTable::item:hover {
+    background-color: #f2f9ff; /* light hover color */
+}
+
+QTableWidget#MasterTable::item:selected {
+    background-color: #3498db; /* selected row color */
+    color: #ffffff;             /* selected text color */
+    border: none;               /* remove inner border */
+}
+
+QTableWidget#MasterTable::item:selected:focus {
+    outline: 0;                 /* remove inner focus rectangle */
+}
+
+QHeaderView::section {
+    background-color: #039aff;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid #2980b9;
+    padding: 4px;
+}
+QMenu {
+    background-color: #3498db;      /* dark background */
+    color: #ffffff;                 /* text color */
+    border: 1px solid #555555;      /* border */
+}
+QMenu::item {
+    padding: 5px 25px;
+    background-color: transparent;
+}
+
+QMenu::item:selected {
+    background-color: #0099ff;      /* hover/selected item */
+    color: #ffffff;
+}
+QMenu::separator {
+    height: 1px;
+    background: #555555;
+    margin: 5px 0;
+}
+
+QLabel#MasterTitle {
+    color: #1e1e1e;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #ffffff;      /* hover/selected item */
+}
+
+/* ==========================
+   FORMS (Aligned to main colors)
+========================== */
+
+QWidget#form {
+    background-color: #fafafa;  /* light neutral, matches central widget */
+    border-radius: 8px;
+    padding: 8px;
+}
+
+QLabel#form {
+    background-color: #0368ff; /* main blue header for labels */
+    color: #ffffff;            /* white text on blue */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 6px 8px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+QLineEdit#form {
+    background-color: #ffffff;  /* input white */
+    color: #222222;             /* dark text */
+    font-size: 18px;
+    padding: 6px 8px;
+    border: 2px solid #0368ff;  /* main blue border */
+    border-left: none;           /* attach to label */
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    font-family: 'Segoe UI';
+}
+
+QPushButton#form {
+    background-color: #0368ff;   /* main blue button */
+    color: #ffffff;              /* white text */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+}
+
+QPushButton#form:hover {
+    background-color: #0480ff;  /* lighter blue on hover */
+}
+
+QPushButton#form:pressed {
+    background-color: #024fa3;  /* darker blue when pressed */
+}
+
+QPushButton#form:disabled {
+    background-color: #cccccc;  /* grey disabled state */
+    color: #666666;
+}
+/* -----------------------------
+   MessageBox Window
+----------------------------- */
+QMessageBox {
+    background-color: #fafafa;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Main text label */
+QMessageBox QLabel {
+    color: #222222;
+    font-size: 14px;
+}
+
+/* Detailed text section */
+QMessageBox QTextEdit {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #333333;
+}
+
+/* Buttons container */
+QMessageBox QPushButton {
+    background-color: #ffffff;
+    color: #222222;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 4px 10px;
+    min-width: 80px;
+    font-size: 13px;
+}
+
+/* Hover effect for buttons */
+QMessageBox QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+/* Pressed effect for buttons */
+QMessageBox QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+/* Disabled buttons */
+QMessageBox QPushButton:disabled {
+    background-color: #f9f9f9;
+    color: #aaaaaa;
+    border-color: #dddddd;
+}
+
+/* Icon style */
+QMessageBox QLabel#qt_msgbox_icon_label {
+    background: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Detailed text toggle button */
+QMessageBox QToolButton {
+    border: none;
+    background: none;
+    color: #555555;
+    font-size: 12px;
+}
+
+/* Optional: make detailed text expand icon consistent */
+QMessageBox QToolButton:hover {
+    color: #000000;
+}
+
+/* Optional: spacing fix for multi-line text */
+QMessageBox QFrame {
+    border: none;
+}

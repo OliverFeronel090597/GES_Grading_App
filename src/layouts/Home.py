@@ -1,12 +1,12 @@
-# libs/Home.py
+# layouts/Home.py
 import os
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy
 )
 from PyQt6.QtCore import Qt, QTimer, QDateTime
 from PyQt6.QtGui import QFontDatabase, QFont
-from libs.BackgroundImage import PixmapBgWidget
-from libs.DragAndDropImages import DragAndDropImage
+from layouts.BackgroundImage import PixmapBgWidget
+from layouts.DragAndDropImages import DragAndDropImage
 
 
 class HomeWidget(QWidget):

@@ -119,16 +119,37 @@ class DatabaseConnector:
             "INSERT INTO Levels (Level) VALUES (?)",
             (level_name,)
         )
+    def edit_level(self, id, level_name):
+        """
+        Update a grade level by ID.
+
+        Args:
+            id (int): The primary key of the level to update
+            level_name (str): The new level name
+        """
+        return self.execute(
+            "UPDATE Levels SET Level = ? WHERE ID = ?",
+            (level_name, id)  # correct order
+        )
 
     def get_level(self, level_id):
         return self.execute(
             "SELECT * FROM Levels WHERE ID = ?",
             (level_id,), fetch_one=True
         )
-
+    
+    def get_level_id(self, level):
+        return self.execute(
+            "SELECT * FROM Levels WHERE Level = ?",
+            (level,), fetch_one=True
+        )
+    
     def get_levels(self):
         return self.execute("SELECT * FROM Levels ORDER BY ID ASC", fetch_all=True)
 
+    def get_levels_no_id(self):
+        return self.execute("SELECT Level FROM Levels ORDER BY ID ASC", fetch_all=True)
+    
     def get_levels_by_category(self, category):
         return self.execute(
             "SELECT * FROM Levels WHERE Category = ? ORDER BY LevelName ASC",
@@ -158,8 +179,8 @@ class DatabaseConnector:
         values = list(fields.values()) + [level_id]
         return self.execute(f"UPDATE Levels SET {keys} WHERE ID = ?", values)
 
-    def delete_level(self, level_id):
-        return self.execute("DELETE FROM Levels WHERE ID = ?", (level_id,))
+    def delete_level(self, level):
+        return self.execute("DELETE FROM Levels WHERE Level = ?", (level,))
 
     def search_levels(self, search_term):
         return self.execute(

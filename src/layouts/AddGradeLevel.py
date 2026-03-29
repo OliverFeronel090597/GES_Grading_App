@@ -7,8 +7,8 @@ from PyQt6.QtCore import Qt
 
 
 class AddGradeLevel(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
         self.setWindowTitle("Sample Form")
         self.setFixedSize(300, 180)

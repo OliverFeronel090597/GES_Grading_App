@@ -15,7 +15,7 @@ from PyQt6.QtCore import Qt, QDate, pyqtSignal, QSize
 from PyQt6.QtGui import QAction, QIcon, QFont, QColor, QPalette
 
 # Import the DatabaseConnector
-from libs.DatabaseConnector import DatabaseConnector
+from layouts.DatabaseConnector import DatabaseConnector
 
 
 # ============================================================

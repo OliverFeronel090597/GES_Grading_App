@@ -1,6 +1,6 @@
 from PyQt6.QtCore import Qt, QPropertyAnimation, QPoint, QEasingCurve, QTimer, QObject, QEvent
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QFrame, QStyle
-from libs.SlideNotification import SlideNotification
+from layouts.SlideNotification import SlideNotification
 
 
 # ============================================================
