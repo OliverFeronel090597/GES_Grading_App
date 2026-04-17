@@ -21,7 +21,6 @@ class DatabaseConnector:
         try:
             conn = sqlite3.connect(self.db_path)
             conn.row_factory = sqlite3.Row
-            # PRAGMA foreign_keys = ON - must be executed immediately after connection
             conn.execute("PRAGMA foreign_keys = ON")
             return conn
         except sqlite3.Error as e:
@@ -35,7 +34,6 @@ class DatabaseConnector:
 
         cur = conn.cursor()
         try:
-            # Execute the query - pragma is already set in connect()
             cur.execute(query, params)
 
             if fetch_one:
@@ -59,50 +57,68 @@ class DatabaseConnector:
     # TABLE CREATION
     # ============================================================
     def _create_tables(self):
-        # Each table has its own CREATE statement (no foreign keys)
         schema = [
+
+            # -----------------------------------------------------
+            # LEVELS TABLE
+            # -----------------------------------------------------
             """
             CREATE TABLE IF NOT EXISTS Levels (
-                ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                Level TEXT NOT NULL UNIQUE
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,   -- Unique level ID
+                LevelName TEXT NOT NULL UNIQUE         -- Name of the level (ex: Grade 1)
             );
             """,
-            # """
-            # CREATE TABLE IF NOT EXISTS Sections (
-            #     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            #     SectionName TEXT NOT NULL,
-            #     LevelID INTEGER NOT NULL
-            # );
-            # """,
-            # """
-            # CREATE TABLE IF NOT EXISTS Students (
-            #     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            #     Name TEXT NOT NULL,
-            #     Guardian TEXT NOT NULL,
-            #     LevelID INTEGER NOT NULL,
-            #     SectionID INTEGER NOT NULL,
-            #     SchoolYear TEXT NOT NULL
-            # );
-            # """,
-            # """
-            # CREATE TABLE IF NOT EXISTS Subjects (
-            #     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            #     Subject TEXT NOT NULL,
-            #     Advisor TEXT NOT NULL,
-            #     LevelID INTEGER NOT NULL
-            # );
-            # """,
-            # """
-            # CREATE TABLE IF NOT EXISTS Grades (
-            #     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            #     StudentID INTEGER NOT NULL,
-            #     SubjectID INTEGER NOT NULL,
-            #     Grade TEXT NOT NULL,
-            #     SchoolYear TEXT NOT NULL
-            # );
-            # """
-        ]
 
+            # -----------------------------------------------------
+            # SECTIONS TABLE
+            # -----------------------------------------------------
+            """
+            CREATE TABLE IF NOT EXISTS Sections (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,   -- Unique section ID
+                SectionName TEXT NOT NULL,              -- Section name (ex: A, St. John)
+                LevelID INTEGER NOT NULL                -- Links to Levels.ID (no FK enforcement)
+            );
+            """,
+
+            # -----------------------------------------------------
+            # STUDENTS TABLE
+            # -----------------------------------------------------
+            """
+            CREATE TABLE IF NOT EXISTS Students (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,   -- Student unique ID
+                Name TEXT NOT NULL,                     -- Full name of student
+                Guardian TEXT NOT NULL,                 -- Parent/guardian full name
+                LevelID INTEGER NOT NULL,               -- Assigned level (Grade)
+                SectionID INTEGER NOT NULL,             -- Assigned section
+                SchoolYear TEXT NOT NULL                -- Ex: '2024-2025'
+            );
+            """,
+
+            # -----------------------------------------------------
+            # SUBJECTS TABLE
+            # -----------------------------------------------------
+            """
+            CREATE TABLE IF NOT EXISTS Subjects (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,   -- Subject unique ID
+                Subject TEXT NOT NULL,                  -- Subject name (Math, Science)
+                Advisor TEXT NOT NULL,                  -- Teacher in charge of subject
+                LevelID INTEGER NOT NULL                -- Level this subject belongs to
+            );
+            """,
+
+            # -----------------------------------------------------
+            # GRADES TABLE
+            # -----------------------------------------------------
+            """
+            CREATE TABLE IF NOT EXISTS Grades (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,   -- Grade unique ID
+                StudentID INTEGER NOT NULL,             -- Student receiving the grade
+                SubjectID INTEGER NOT NULL,             -- Subject the grade belongs to
+                Grade TEXT NOT NULL,                    -- Grade (number, letter, etc.)
+                SchoolYear TEXT NOT NULL                -- Year the grade applies to
+            );
+            """
+        ]
         conn = self.connect()
         if conn:
             cur = conn.cursor()
@@ -110,95 +126,6 @@ class DatabaseConnector:
                 cur.execute(q)
             conn.commit()
             conn.close()
-
-    # ============================================================
-    # LEVELS CRUD + EXTRA QUERIES
-    # ============================================================
-    def add_level(self, level_name):
-        return self.execute(
-            "INSERT INTO Levels (Level) VALUES (?)",
-            (level_name,)
-        )
-    def edit_level(self, id, level_name):
-        """
-        Update a grade level by ID.
-
-        Args:
-            id (int): The primary key of the level to update
-            level_name (str): The new level name
-        """
-        return self.execute(
-            "UPDATE Levels SET Level = ? WHERE ID = ?",
-            (level_name, id)  # correct order
-        )
-
-    def get_level(self, level_id):
-        return self.execute(
-            "SELECT * FROM Levels WHERE ID = ?",
-            (level_id,), fetch_one=True
-        )
-    
-    def get_level_id(self, level):
-        return self.execute(
-            "SELECT * FROM Levels WHERE Level = ?",
-            (level,), fetch_one=True
-        )
-    
-    def get_levels(self):
-        return self.execute("SELECT * FROM Levels ORDER BY ID ASC", fetch_all=True)
-
-    def get_levels_no_id(self):
-        return self.execute("SELECT Level FROM Levels ORDER BY ID ASC", fetch_all=True)
-    
-    def get_levels_by_category(self, category):
-        return self.execute(
-            "SELECT * FROM Levels WHERE Category = ? ORDER BY LevelName ASC",
-            (category,), fetch_all=True
-        )
-
-    def get_level_with_details(self, level_id):
-        return self.execute(
-            """
-            SELECT 
-                l.*,
-                COUNT(DISTINCT s.ID) as section_count,
-                COUNT(DISTINCT stu.ID) as student_count,
-                COUNT(DISTINCT sub.ID) as subject_count
-            FROM Levels l
-            LEFT JOIN Sections s ON l.ID = s.LevelID
-            LEFT JOIN Students stu ON l.ID = stu.LevelID
-            LEFT JOIN Subjects sub ON l.ID = sub.LevelID
-            WHERE l.ID = ?
-            GROUP BY l.ID
-            """,
-            (level_id,), fetch_one=True
-        )
-
-    def update_level(self, level_id, **fields):
-        keys = ", ".join(f"{k} = ?" for k in fields)
-        values = list(fields.values()) + [level_id]
-        return self.execute(f"UPDATE Levels SET {keys} WHERE ID = ?", values)
-
-    def delete_level(self, level):
-        return self.execute("DELETE FROM Levels WHERE Level = ?", (level,))
-
-    def search_levels(self, search_term):
-        return self.execute(
-            """
-            SELECT * FROM Levels 
-            WHERE LevelName LIKE ? OR Category LIKE ?
-            ORDER BY LevelName ASC
-            """,
-            (f'%{search_term}%', f'%{search_term}%'), fetch_all=True
-        )
-
-    def count_levels(self):
-        return self.execute("SELECT COUNT(*) as count FROM Levels", fetch_one=True)
-    
-
-
-
-
 
     # ============================================================
     # UTILITY FUNCTIONS
@@ -234,9 +161,226 @@ class DatabaseConnector:
             return True
         return False
 
-if __name__=="__main__":
-    db = DatabaseConnector()
-    db.add_level("Kinder")
-    # rslt = db.get_all_students()
-    # for r in rslt:
-    #     print(r)
+    # ============================================================
+    # LEVELS CRUD
+    # ============================================================
+    def add_level(self, level_name: str, ) -> bool:
+        return self.execute(
+            "INSERT INTO Levels (LevelName) VALUES (?)",
+            (level_name,)
+        )
+
+    def get_level(self, level_id: int) -> Optional[Dict]:
+        return self.execute(
+            "SELECT * FROM Levels WHERE ID = ?",
+            (level_id,),
+            fetch_one=True
+        )
+
+    def get_all_levels(self) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Levels ORDER BY ID",
+            fetch_all=True
+        ) or []
+
+    def update_level(self, level_id: int, level_name: str) -> bool:
+        return self.execute(
+            "UPDATE Levels SET LevelName = ? WHERE ID = ?",
+            (level_name, level_id)
+        )
+    
+    def delete_level(self, level_id: int) -> bool:
+        return self.execute(
+            "DELETE FROM Levels WHERE ID = ?",
+            (level_id,)
+        )
+
+    # ============================================================
+    # SECTIONS CRUD
+    # ============================================================
+    def add_section(self, section_name: str, level_id: int) -> bool:
+        return self.execute(
+            "INSERT INTO Sections (SectionName, LevelID) VALUES (?, ?)",
+            (section_name, level_id)
+        )
+
+    def get_section(self, section_id: int) -> Optional[Dict]:
+        return self.execute(
+            "SELECT * FROM Sections WHERE ID = ?",
+            (section_id,),
+            fetch_one=True
+        )
+
+    def get_sections_by_level(self, level_id: int) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Sections WHERE LevelID = ? ORDER BY ID",
+            (level_id,),
+            fetch_all=True
+        ) or []
+
+    def get_all_sections(self) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Sections ORDER BY ID",
+            fetch_all=True
+        ) or []
+
+    def update_section(self, section_id: int, section_name: str, level_id: int) -> bool:
+        return self.execute(
+            "UPDATE Sections SET SectionName = ?, LevelID = ? WHERE ID = ?",
+            (section_name, level_id, section_id)
+        )
+
+    def delete_section(self, section_id: int) -> bool:
+        return self.execute(
+            "DELETE FROM Sections WHERE ID = ?",
+            (section_id,)
+        )
+
+    # ============================================================
+    # STUDENTS CRUD
+    # ============================================================
+    def add_student(self, name: str, guardian: str, level_id: int, section_id: int, school_year: str) -> bool:
+        return self.execute(
+            "INSERT INTO Students (Name, Guardian, LevelID, SectionID, SchoolYear) VALUES (?, ?, ?, ?, ?)",
+            (name, guardian, level_id, section_id, school_year)
+        )
+
+    def get_student(self, student_id: int) -> Optional[Dict]:
+        return self.execute(
+            "SELECT * FROM Students WHERE ID = ?",
+            (student_id,),
+            fetch_one=True
+        )
+
+    def get_students_by_section(self, section_id: int) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Students WHERE SectionID = ? ORDER BY Name",
+            (section_id,),
+            fetch_all=True
+        ) or []
+
+    def get_students_by_level(self, level_id: int) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Students WHERE LevelID = ? ORDER BY Name",
+            (level_id,),
+            fetch_all=True
+        ) or []
+
+    def get_all_students(self) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Students ORDER BY Name",
+            fetch_all=True
+        ) or []
+
+    def update_student(self, student_id: int, name: str, guardian: str, level_id: int, section_id: int, school_year: str) -> bool:
+        return self.execute(
+            "UPDATE Students SET Name = ?, Guardian = ?, LevelID = ?, SectionID = ?, SchoolYear = ? WHERE ID = ?",
+            (name, guardian, level_id, section_id, school_year, student_id)
+        )
+
+    def delete_student(self, student_id: int) -> bool:
+        return self.execute(
+            "DELETE FROM Students WHERE ID = ?",
+            (student_id,)
+        )
+
+    # ============================================================
+    # SUBJECTS CRUD
+    # ============================================================
+    def add_subject(self, subject: str, advisor: str, level_id: int) -> bool:
+        return self.execute(
+            "INSERT INTO Subjects (Subject, Advisor, LevelID) VALUES (?, ?, ?)",
+            (subject, advisor, level_id)
+        )
+
+    def get_subject(self, subject_id: int) -> Optional[Dict]:
+        return self.execute(
+            "SELECT * FROM Subjects WHERE ID = ?",
+            (subject_id,),
+            fetch_one=True
+        )
+
+    def get_subjects_by_level(self, level_id: int) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Subjects WHERE LevelID = ? ORDER BY Subject",
+            (level_id,),
+            fetch_all=True
+        ) or []
+
+    def get_all_subjects(self) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Subjects ORDER BY Subject",
+            fetch_all=True
+        ) or []
+
+    def update_subject(self, subject_id: int, subject: str, advisor: str, level_id: int) -> bool:
+        return self.execute(
+            "UPDATE Subjects SET Subject = ?, Advisor = ?, LevelID = ? WHERE ID = ?",
+            (subject, advisor, level_id, subject_id)
+        )
+
+    def delete_subject(self, subject_id: int) -> bool:
+        return self.execute(
+            "DELETE FROM Subjects WHERE ID = ?",
+            (subject_id,)
+        )
+
+    # ============================================================
+    # GRADES CRUD
+    # ============================================================
+    def add_grade(self, student_id: int, subject_id: int, grade: str, school_year: str) -> bool:
+        return self.execute(
+            "INSERT INTO Grades (StudentID, SubjectID, Grade, SchoolYear) VALUES (?, ?, ?, ?)",
+            (student_id, subject_id, grade, school_year)
+        )
+
+    def get_grade(self, grade_id: int) -> Optional[Dict]:
+        return self.execute(
+            "SELECT * FROM Grades WHERE ID = ?",
+            (grade_id,),
+            fetch_one=True
+        )
+
+    def get_student_grades(self, student_id: int, school_year: Optional[str] = None) -> List[Dict]:
+        if school_year:
+            return self.execute(
+                "SELECT * FROM Grades WHERE StudentID = ? AND SchoolYear = ? ORDER BY SubjectID",
+                (student_id, school_year),
+                fetch_all=True
+            ) or []
+        return self.execute(
+            "SELECT * FROM Grades WHERE StudentID = ? ORDER BY SubjectID",
+            (student_id,),
+            fetch_all=True
+        ) or []
+
+    def get_subject_grades(self, subject_id: int, school_year: Optional[str] = None) -> List[Dict]:
+        if school_year:
+            return self.execute(
+                "SELECT * FROM Grades WHERE SubjectID = ? AND SchoolYear = ? ORDER BY StudentID",
+                (subject_id, school_year),
+                fetch_all=True
+            ) or []
+        return self.execute(
+            "SELECT * FROM Grades WHERE SubjectID = ? ORDER BY StudentID",
+            (subject_id,),
+            fetch_all=True
+        ) or []
+
+    def get_all_grades(self) -> List[Dict]:
+        return self.execute(
+            "SELECT * FROM Grades ORDER BY StudentID, SubjectID",
+            fetch_all=True
+        ) or []
+
+    def update_grade(self, grade_id: int, student_id: int, subject_id: int, grade: str, school_year: str) -> bool:
+        return self.execute(
+            "UPDATE Grades SET StudentID = ?, SubjectID = ?, Grade = ?, SchoolYear = ? WHERE ID = ?",
+            (student_id, subject_id, grade, school_year, grade_id)
+        )
+
+    def delete_grade(self, grade_id: int) -> bool:
+        return self.execute(
+            "DELETE FROM Grades WHERE ID = ?",
+            (grade_id,)
+        )

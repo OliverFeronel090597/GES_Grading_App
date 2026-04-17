@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QLabel, QApplication, QSizePolicy
-from layouts.DatabaseConnector import DatabaseConnector
-from layouts.AddStudents import StudentMasterData
-from layouts.AddSubject import GradeSubject
-from layouts.GradeLevel import GradeLevelMaster
+from PyQt6.QtWidgets            import QWidget, QHBoxLayout, QApplication, QSizePolicy
+from layouts.DatabaseConnector  import DatabaseConnector
+from layouts.AddStudents        import StudentMasterData
+from layouts.AddSubject         import GradeSubject
+from layouts.GradeLevel         import GradeLevelMaster
 import sys
 
 
@@ -26,18 +26,18 @@ class AcademicMasterData(QWidget):
 
     def initUI(self):
         # Initialize modules
-        self.grade_level = GradeLevelMaster(self.db)
-        self.grade_subject = GradeSubject(self.db)
-        self.add_students = StudentMasterData(self.db)
+        self.grade_level    = GradeLevelMaster  (self.db)
+        self.grade_subject  = GradeSubject      (self.db)
+        self.add_students   = StudentMasterData (self.db)
 
         # Make widgets expandable
         for widget in (self.grade_level, self.grade_subject, self.add_students):
             widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         # Add widgets with stretch factors (optional: control relative widths)
-        self.main_layout.addWidget(self.grade_level, 1)     # stretch factor 1
-        self.main_layout.addWidget(self.grade_subject, 2)   # stretch factor 2
-        self.main_layout.addWidget(self.add_students, 3)    # stretch factor 3
+        self.main_layout.addWidget(self.grade_level     ,   2)     # stretch factor 1
+        self.main_layout.addWidget(self.grade_subject   ,   3)   # stretch factor 2
+        self.main_layout.addWidget(self.add_students    ,   3)    # stretch factor 3
 
         # Optional: spacing and margins
         self.main_layout.setSpacing(10)

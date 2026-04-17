@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets                import QApplication, QMainWindow
-from layouts.Globalenentfilter         import GlobalActivityLogger
-from MainWindow                     import GES_StudentGrading
+from PyQt6.QtWidgets                    import QApplication, QMainWindow
+from layouts.Globalenentfilter          import GlobalActivityLogger
+from MainWindow                         import GES_StudentGrading
 import sys
 
 def move_to_second_screen(window:QMainWindow):

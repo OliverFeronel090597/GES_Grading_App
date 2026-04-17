@@ -4,7 +4,7 @@ from layouts.DatabaseConnector import DatabaseConnector
 from layouts.CustomQtable import SmartTable
 from layouts.MessageTypes import MessageBox
 
-from forms.AddGradeLevel import AddGradeLevel
+from forms.AddEditGradeLevel import AddEditGradeLevel
 
 import sys
 
@@ -32,29 +32,27 @@ class GradeLevelMaster(QWidget):
         self.main_layout = QHBoxLayout()
         self.setLayout(self.main_layout)
 
-        self.init_ui()
-
-    def init_ui(self):
         self.init_grade_table()
 
     def init_grade_table(self):
         table_layout = QVBoxLayout()
         self.main_layout.addLayout(table_layout)
 
-        title_label = QLabel("Academic Levels")
+        title_label = QLabel("Levels")
         title_label.setObjectName("MasterTitle")
         table_layout.addWidget(title_label)
 
         self.grade_table = SmartTable(
             parent=self,
             enable_context_menu=True,
-            enable_double_click=False
+            enable_double_click=False,
+            enable_vertical_header=False
         )
         self.grade_table.setObjectName("MasterTable")
         table_layout.addWidget(self.grade_table)
 
         self.grade_table.set_actions(
-            add=self.add_grade,
+            add=self.add_grade_level,
             edit=self.edit_grade,
             delete=self.delete_grade,
             double_click=self.on_grade_double_click
@@ -62,26 +60,30 @@ class GradeLevelMaster(QWidget):
 
         self.update_table_data()
 
-
     def update_table_data(self):
-        # -----------------------------
-        # LOAD HEADERS + VALUES FROM DB
-        # -----------------------------
-        # table_info = self.db.get_table_info("Levels")
-        # headers = [col["name"] for col in table_info]   # ['ID','LevelName','Category']
+        """
+        Load grade levels from DB and update the table widget
+        """
+        raw_rows = self.db.get_all_levels()  # list of dicts
 
-        raw_rows = self.db.get_levels_no_id()                 # list of dicts
-        values = [[row[h] for h in ["Level"]] for row in raw_rows]
-        
+        # fallback if DB returns empty
+        if not raw_rows:
+            raw_rows = [{"ID": 1, "LevelName": "Sample Only", "Category": "Default"}]
 
-        self.grade_table.update_data(values, ["Level"])
+        # extract true column names
+        col_info = self.db.get_table_info("Levels")
+        print(col_info)
+        headers = [c["name"] for c in col_info]
 
+        # build table rows
+        values = [[row.get(h) for h in headers] for row in raw_rows]
 
-    # -----------------------------
+        self.grade_table.update_data(values, headers)
+
     # Context menu callbacks
     # -----------------------------
-    def add_grade(self):
-        dlg = AddGradeLevel(db=self.db, parent=self)
+    def add_grade_level(self):
+        dlg = AddEditGradeLevel(db=self.db, parent=self)
         if dlg.exec():
             self.update_table_data()
         else:
@@ -93,7 +95,7 @@ class GradeLevelMaster(QWidget):
         values = [self.grade_table.item(row_index, c).text()
                   if self.grade_table.item(row_index, c) else None
                   for c in range(cols)]
-        dlg = AddGradeLevel(db=self.db, data=values[0], parent=self)
+        dlg = AddEditGradeLevel(db=self.db, data=values, parent=self)
         if dlg.exec():
             self.update_table_data()
         else:

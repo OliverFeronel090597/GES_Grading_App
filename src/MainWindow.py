@@ -82,7 +82,7 @@ class GES_StudentGrading(QMainWindow):
         self.root_layout = QHBoxLayout(central)
         self.root_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.notification_manager = NotificationManager(parent=self, position="right")
+        #self.notification_manager = NotificationManager(parent=self, position="right")
 
         # NAV BAR
         self.nav_widget = QWidget()
@@ -172,13 +172,13 @@ class GES_StudentGrading(QMainWindow):
         self.btn_advance.clicked.connect(lambda: self.stack.slide_to(3))
         self.btn_settings.clicked.connect(lambda: self.stack.slide_to(4))
 
-        QTimer.singleShot(
-            2000,
-            lambda: self.notification_manager.show_notification(
-                f"{QApplication.applicationName()} {QApplication.applicationVersion()}",
-                icon_new="SP_MessageBoxInformation"
-            )
-        )
+        # QTimer.singleShot(
+        #     2000,
+        #     lambda: self.notification_manager.show_notification(
+        #         f"{QApplication.applicationName()} {QApplication.applicationVersion()}",
+        #         icon_new="SP_MessageBoxInformation"
+        #     )
+        # )
         #Timer for live reload
         self.timer = QTimer(self)
         self.timer.setInterval(1000)

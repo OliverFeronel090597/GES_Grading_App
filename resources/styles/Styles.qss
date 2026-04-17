@@ -170,7 +170,7 @@ QLabel#form {
 }
 
 QLineEdit#form {
-    background-color: #ffffff;  /* input white */
+    background-color: #d4d4d4;  /* input white */
     color: #222222;             /* dark text */
     font-size: 18px;
     padding: 6px 8px;
