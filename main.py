@@ -12,12 +12,15 @@ from src.widgets.GradesPage     import GradesPage
 from src.widgets.ReportsPage    import ReportsPage
 from src.widgets.SettingsPage   import SettingsPage
 from src.widgets.HelpPage       import HelpPage
+from src.Database.Database      import Database
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("School Management System")
         self.setGeometry(100, 100, 1100, 700)
+
+        self.db = Database()
         
         # Central widget
         central_widget = QWidget()
@@ -42,7 +45,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget = QStackedWidget()
         
         # Add pages
-        self.stacked_widget.addWidget(DashboardPage())   # Index 0
+        self.stacked_widget.addWidget(DashboardPage(self, self.db))   # Index 0
         self.stacked_widget.addWidget(StudentsPage())    # Index 1
         self.stacked_widget.addWidget(GradesPage())      # Index 2
         self.stacked_widget.addWidget(ReportsPage())     # Index 3
