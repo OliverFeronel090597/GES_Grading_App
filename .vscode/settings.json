@@ -1,0 +1,10 @@
+{
+    "editor.definitionLinkOpensInPeek": true,
+    "editor.multiCursorModifier": "alt",
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"c:\\\\Users\\\\O\\.Feronel\\\\OneDrive - ams OSRAM\\\\Documents\\\\PYTHON_EXTERN_PROJ\\\\GUINTAS_ELEM_GRADING_SYSTEM\\\\src\" ; timeout 5 C:/Python314/python\\.exe main\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
