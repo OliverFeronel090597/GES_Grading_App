@@ -14,26 +14,27 @@ class SidePanel(QFrame):
         # Header
         header = QLabel("📋 MENU")
         header.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        header.setObjectName("header")
         layout.addWidget(header)
         
         # Buttons only
-        self.btn_dashboard = QPushButton("📊 Dashboard")
+        self.btn_dashboard = QPushButton("Dashboard") #📊
         self.btn_dashboard.setProperty("active", True)
         self.btn_dashboard.clicked.connect(lambda: self.button_clicked("Dashboard"))
         
-        self.btn_students = QPushButton("👨‍🎓 Students")
+        self.btn_students = QPushButton("Students") #👨‍🎓 
         self.btn_students.clicked.connect(lambda: self.button_clicked("Students"))
         
-        self.btn_grades = QPushButton("📝 Grades")
+        self.btn_grades = QPushButton("Grades") #📝 
         self.btn_grades.clicked.connect(lambda: self.button_clicked("Grades"))
         
-        self.btn_reports = QPushButton("📊 Reports")
+        self.btn_reports = QPushButton("Reports") #📊 
         self.btn_reports.clicked.connect(lambda: self.button_clicked("Reports"))
         
-        self.btn_settings = QPushButton("⚙️ Settings")
+        self.btn_settings = QPushButton("Settings") #⚙️ 
         self.btn_settings.clicked.connect(lambda: self.button_clicked("Settings"))
         
-        self.btn_help = QPushButton("❓ Help")
+        self.btn_help = QPushButton("Help") #❓ 
         self.btn_help.clicked.connect(lambda: self.button_clicked("Help"))
         
         # Add buttons

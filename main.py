@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
         
+        
         # Side panel
         self.side_panel = SidePanel(self)
         main_layout.addWidget(self.side_panel)
@@ -45,7 +46,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget = QStackedWidget()
         
         # Add pages
-        self.stacked_widget.addWidget(DashboardPage(self, self.db))   # Index 0
+        self.stacked_widget.addWidget(DashboardPage(parent=self, db=self.db))   # Index 0
         self.stacked_widget.addWidget(StudentsPage())    # Index 1
         self.stacked_widget.addWidget(GradesPage())      # Index 2
         self.stacked_widget.addWidget(ReportsPage())     # Index 3
@@ -60,7 +61,6 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.apply_style)
         self.timer.start(100)  # Interval in milliseconds
-        
 
     def apply_style(self):
         with open("styles/Styles.qss", "r") as f:

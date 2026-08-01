@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guintas Elementary School · Leganes, Iloilo</title>
+  <!-- Font Awesome for subtle icons (optional but adds charm) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none; /* Prevent text selection */
+      -webkit-user-select: none; /* For Safari */
+      -moz-user-select: none; /* For Firefox */
+      -ms-user-select: none; /* For IE/Edge */
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      background: #f0f4ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* card – main container */
+    .school-card {
+      max-width: 1200px;
+      width: 200%;
+      background: #ffffff;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 2.5rem 2.5rem 2rem 2rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 20, 30, 0.35),
+                  0 8px 24px -6px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 2.8rem 2.5rem 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Prevent text selection on all elements inside card */
+    .school-card * {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    /* Disable right-click context menu */
+    .school-card {
+      pointer-events: auto;
+    }
+
+    /* subtle decorative accent - using school color */
+    .school-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #001eff, #4a6fff, #001eff);
+      background-size: 200% 100%;
+      animation: shimmer 6s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 0%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    /* Header container - flex layout for name and image */
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Left side - school name */
+    .header-left {
+      flex: 1;
+    }
+
+    /* School name with icon */
+    .school-name-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .school-icon-large {
+      font-size: 3.5rem;
+      color: #001eff;
+      flex-shrink: 0;
+    }
+
+    /* main heading – school name */
+    h1 {
+      font-size: 3.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: #001eff;
+      margin: 0;
+      word-break: break-word;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* "Elementary" text - fixed to prevent y cutoff */
+    .school-subtitle {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #001eff;
+      opacity: 0.8;
+      margin-top: -5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding-bottom: 3px;
+      line-height: 1.4;
+      display: block;
+    }
+
+    /* Right side - image container */
+    .header-right {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-right img {
+      max-height: 120px;
+      width: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 30, 255, 0.2);
+      object-fit: contain;
+      border: 2px solid #001eff;
+      padding: 4px;
+      pointer-events: none; /* Prevent interaction with image */
+    }
+
+    /* location block – with separator & icon */
+    .location-block {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.2rem 0.4rem;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+      border-top: 2px dashed #d7e6e0;
+      color: #1e4c3f;
+    }
+
+    .location-block i {
+      font-size: 1.3rem;
+      color: #001eff;
+      margin-right: 0.2rem;
+      width: 1.8rem;
+      text-align: center;
+    }
+
+    .location-text {
+      font-size: 1.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: #1d4237;
+      background: rgba(0, 30, 255, 0.05);
+      padding: 0.1rem 0.8rem 0.1rem 0.4rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .location-text .separator {
+      margin: 0 0.2rem;
+      color: #5e8b7a;
+      font-weight: 300;
+    }
+
+    .location-text .comma {
+      margin-right: 0.1rem;
+    }
+
+    /* Table data section - full widget */
+    .table-data {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid #e0ede7;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+    }
+
+    .data-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f8faff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #dce3ff;
+      transition: all 0.3s ease;
+      width: 100%;
+      pointer-events: none; /* Prevent interaction */
+    }
+
+    .data-item:hover {
+      background: #eef3ff;
+      border-color: #001eff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 30, 255, 0.15);
+    }
+
+    .data-item i {
+      font-size: 1.5rem;
+      color: #001eff;
+      width: 2.5rem;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .data-item .label {
+      font-size: 0.7rem;
+      color: #7c9f91;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .data-item .value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0d3329;
+    }
+
+    .data-item .value strong {
+      color: #001eff;
+    }
+
+    .data-item .value .teacher-name {
+      color: #001eff;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* additional details – mini tag */
+    .school-tag {
+      margin-top: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.5rem;
+      background: #f0f4ff;
+      padding: 0.9rem 1.6rem;
+      border-radius: 60px;
+      border: 1px solid rgba(0, 30, 255, 0.15);
+      backdrop-filter: blur(2px);
+      box-shadow: inset 0 1px 4px rgba(255,255,255,0.8);
+      pointer-events: none;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      color: #1b4f3f;
+      font-weight: 460;
+    }
+
+    .tag-item i {
+      color: #001eff;
+      font-size: 1.1rem;
+      width: 1.4rem;
+      text-align: center;
+    }
+
+    .tag-item strong {
+      font-weight: 600;
+      color: #001eff;
+    }
+
+    /* Future grid container under Region */
+    .future-grid-container {
+      margin-top: 1.8rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid #e0ede7;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .future-grid-item {
+      background: #f8faff;
+      border: 2px dashed #dce3ff;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      position: relative;
+    }
+
+    .future-grid-item:hover {
+      border-color: #001eff;
+      background: #eef3ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 30, 255, 0.1);
+    }
+
+    .future-grid-item .placeholder-text {
+      font-size: 0.9rem;
+      color: #a0b4c8;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.6;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .future-grid-item .placeholder-icon {
+      font-size: 2.5rem;
+      color: #dce3ff;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .future-grid-item .placeholder-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Extra empty box style */
+    .future-grid-item.empty-box {
+      border-style: dashed;
+      border-color: #dce3ff;
+      background: #fafcff;
+    }
+
+    .future-grid-item.empty-box .placeholder-text {
+      color: #b8c8dd;
+    }
+
+    /* responsive fine-tune */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .header-right img {
+        max-height: 80px;
+      }
+
+      .school-card {
+        padding: 2rem 1.5rem 2.2rem;
+        border-radius: 2rem;
+      }
+
+      h1 {
+        font-size: 2.6rem;
+      }
+
+      .school-subtitle {
+        font-size: 1rem;
+      }
+
+      .school-icon-large {
+        font-size: 2.5rem;
+      }
+
+      .location-text {
+        font-size: 1.3rem;
+        flex-wrap: wrap;
+      }
+
+      .location-block i {
+        font-size: 1.1rem;
+        width: 1.6rem;
+      }
+
+      .school-tag {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 1rem 1.4rem;
+        border-radius: 32px;
+      }
+
+      .table-data {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+
+      .data-item {
+        padding: 0.8rem 1rem;
+      }
+
+      .future-grid-container {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+
+      .future-grid-item {
+        min-height: 100px;
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 2.1rem;
+      }
+      .location-text {
+        font-size: 1.1rem;
+      }
+      .school-card {
+        padding: 1.5rem 1rem;
+      }
+      .school-name-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .data-item i {
+        font-size: 1.2rem;
+        width: 2rem;
+      }
+      .data-item .value {
+        font-size: 0.95rem;
+      }
+      .future-grid-item {
+        min-height: 80px;
+        padding: 1rem;
+      }
+      .future-grid-item .placeholder-icon {
+        font-size: 2rem;
+      }
+    }
+
+    /* print-friendly */
+    @media print {
+      body { background: white; padding: 0.5in; }
+      .school-card { box-shadow: none; border: 1px solid #ccc; }
+      .school-card::before { display: none; }
+      .school-tag { background: #f0f5f3; }
+      .future-grid-item { border-color: #ccc; background: #f9f9f9; }
+    }
+
+    /* extra little sparkle */
+    .attribution {
+      margin-top: 1.2rem;
+      text-align: right;
+      font-size: 0.7rem;
+      color: #7c9f91;
+      letter-spacing: 0.3px;
+      opacity: 0.7;
+      border-top: 1px solid #e0ede7;
+      padding-top: 0.8rem;
+      pointer-events: none;
+    }
+    .attribution i {
+      margin-right: 4px;
+      color: #001eff;
+    }
+  </style>
+</head>
+<body>
+  <div class="school-card" oncontextmenu="return false;">
+    
+    <!-- Header with school name and image side by side -->
+    <div class="header-container">
+      <!-- Left side: School name -->
+      <div class="header-left">
+        <div class="school-name-wrapper">
+          <i class="fas fa-school school-icon-large"></i>
+          <div>
+            <h1>Guintas</h1>
+            <span class="school-subtitle">Elementary School</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right side: Image -->
+      <div class="header-right">
+        <img src="C:\Users\O.Feronel\OneDrive - ams OSRAM\Documents\PYTHON_EXTERN_PROJ\GUINTAS_ELEM_GRADING_SYSTEM\img\image.png" 
+             alt="Guintas Elementary School" 
+             onerror="this.style.display='none'"
+             draggable="true">
+      </div>
+    </div>
+
+    <!-- location block: Guintas, Leganes, Iloilo -->
+    <div class="location-block">
+      <i class="fas fa-location-dot"></i>
+      <div class="location-text">
+        <span>Guintas</span><span class="separator">,</span>
+        <span>Leganes</span><span class="separator">,</span>
+        <span>Iloilo</span>
+      </div>
+    </div>
+
+    <!-- Table data - Full widget -->
+    <div class="table-data">
+      <!-- School Hours -->
+      <div class="data-item">
+        <i class="fas fa-clock"></i>
+        <div>
+          <div class="label">School Hours</div>
+          <div class="value">7:00 AM - 5:00 PM</div>
+        </div>
+      </div>
+      
+      <!-- Current Date -->
+      <div class="data-item">
+        <i class="fas fa-calendar-day"></i>
+        <div>
+          <div class="label">Current Date</div>
+          <div class="value" id="current-date">Loading...</div>
+        </div>
+      </div>
+      
+      <!-- School Year -->
+      <div class="data-item">
+        <i class="fas fa-calendar-alt"></i>
+        <div>
+          <div class="label">School Year</div>
+          <div class="value"><strong>2026-2027</strong></div>
+        </div>
+      </div>
+      
+      <!-- Faculty - Teacher -->
+      <div class="data-item">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <div>
+          <div class="label">Faculty In-Charge</div>
+          <div class="value"><span class="teacher-name">Prof. Oliver D. Feronel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- additional information / tag row -->
+    <div class="school-tag">
+      <span class="tag-item"><i class="fas fa-flag"></i> <strong>Region VI</strong> · Western Visayas</span>
+      <span class="tag-item"><i class="fas fa-calendar-alt"></i> established <strong>1968</strong></span>
+      <span class="tag-item"><i class="fas fa-school"></i> Public Elementary</span>
+    </div>
+
+    <!-- Future Grid Container - Empty boxes for future use -->
+    <div class="future-grid-container">
+      <!-- Empty Box 1 -->
+      <div class="future-grid-item empty-box">
+        <div class="placeholder-content">
+          <span class="placeholder-icon"><i class="fas fa-plus-circle"></i></span>
+          <span class="placeholder-text">Future Feature<br>Coming Soon</span>
+        </div>
+      </div>
+      
+      <!-- Empty Box 2 -->
+      <div class="future-grid-item empty-box">
+        <div class="placeholder-content">
+          <span class="placeholder-icon"><i class="fas fa-arrow-right"></i></span>
+          <span class="placeholder-text">Future Feature<br>Coming Soon</span>
+        </div>
+      </div>
+      
+      <!-- Empty Box 3 -->
+      <div class="future-grid-item empty-box">
+        <div class="placeholder-content">
+          <span class="placeholder-icon"><i class="fas fa-star"></i></span>
+          <span class="placeholder-text">Future Feature<br>Coming Soon</span>
+        </div>
+      </div>
+      
+      <!-- Empty Box 4 -->
+      <div class="future-grid-item empty-box">
+        <div class="placeholder-content">
+          <span class="placeholder-icon"><i class="fas fa-cog"></i></span>
+          <span class="placeholder-text">Future Feature<br>Coming Soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- subtle footnote -->
+    <div class="attribution">
+      <i class="fas fa-map-marked-alt"></i> Guintas, Leganes, Iloilo · Philippines
+    </div>
+  </div>
+
+  <script>
+    // Disable right-click context menu on the entire page
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    // Disable text selection via keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Ctrl+A, Ctrl+C, Ctrl+X, Ctrl+U, Ctrl+S
+      if (e.ctrlKey && (e.key === 'a' || e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's')) {
+        e.preventDefault();
+        return false;
+      }
+      // F12 (Developer Tools)
+      if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // Disable drag and drop
+    document.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    // Update the current date
+    function updateDate() {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+    }
+    
+    // Update immediately and then every second
+    updateDate();
+    setInterval(updateDate, 1000);
+  </script>
+</body>
+</html>
