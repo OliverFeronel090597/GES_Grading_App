@@ -207,6 +207,17 @@ class Database:
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (school_year_id) REFERENCES SchoolYears(ID)
             );
+            """,
+                        
+            # -----------------------------------------------------
+            # USER LOGIN
+            # -----------------------------------------------------
+            """
+            CREATE TABLE IF NOT EXISTS Credentials (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                user TEXT NOT NULL,
+                password TEXT NOT NULL
+            );
             """
         ]
         

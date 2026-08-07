@@ -19,7 +19,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("School Management System")
         self.setGeometry(100, 100, 1100, 700)
-
+        self.setMinimumHeight(900)
+        self.apply_style()
         self.db = Database()
         
         # Central widget
@@ -55,8 +56,7 @@ class MainWindow(QMainWindow):
         
         content_layout.addWidget(self.stacked_widget)
         main_layout.addWidget(self.content_area)
-        
-        self.apply_style()
+    
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.apply_style)
@@ -80,6 +80,7 @@ class MainWindow(QMainWindow):
         if page_name in page_map:
             index = page_map[page_name]
             self.stacked_widget.setCurrentIndex(index)
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle('Fusion')

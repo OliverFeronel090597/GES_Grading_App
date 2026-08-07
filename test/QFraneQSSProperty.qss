@@ -1,0 +1,843 @@
+/* ============================================================
+   COMPLETE QFRAME QSS REFERENCE
+   ============================================================ */
+
+/* ========== QFRAME PSEUDO-STATES ========== */
+QFrame:hover {
+    /* Applied when mouse hovers over the frame */
+    background-color: #e8f4f8;
+    border-color: #2980b9;
+    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+}
+
+QFrame:pressed {
+    /* Applied when mouse is pressed on the frame */
+    background-color: #d4e6f1;
+    border-color: #1a5276;
+    transform: scale(0.98);
+}
+
+QFrame:focus {
+    /* Applied when frame has keyboard focus */
+    outline: 3px solid #3498db;
+    outline-offset: 2px;
+}
+
+QFrame:disabled {
+    /* Applied when frame is disabled */
+    background-color: #f0f0f0;
+    color: #999999;
+    border-color: #d0d0d0;
+    opacity: 0.6;
+}
+
+QFrame:enabled {
+    /* Applied when frame is enabled */
+    background-color: #ffffff;
+}
+
+QFrame:checked {
+    /* Applied when frame is in checked state (checkable frames) */
+    background-color: #d4efdf;
+    border-color: #27ae60;
+}
+
+QFrame:unchecked {
+    /* Applied when frame is unchecked */
+    background-color: #fadbd8;
+    border-color: #e74c3c;
+}
+
+QFrame:indeterminate {
+    /* Applied when frame is in indeterminate state */
+    background-color: #fdebd0;
+    border-color: #f39c12;
+}
+
+QFrame:!hover {
+    /* Applied when NOT hovering */
+    border-color: #bdc3c7;
+}
+
+QFrame:!focus {
+    /* Applied when NOT focused */
+    outline: none;
+}
+
+QFrame:active {
+    /* Applied when widget is active (in active window) */
+    background-color: #ffffff;
+}
+
+QFrame:inactive {
+    /* Applied when widget is inactive (window not active) */
+    background-color: #f5f5f5;
+    opacity: 0.8;
+}
+
+QFrame:open {
+    /* Applied when frame is open (menu-like behavior) */
+    border-bottom: 3px solid #3498db;
+}
+
+QFrame:closed {
+    /* Applied when frame is closed */
+    border-bottom: none;
+}
+
+QFrame:selected {
+    /* Applied when frame content is selected */
+    background-color: #3498db;
+    color: white;
+}
+
+QFrame:default {
+    /* Applied to default frame in a group */
+    border: 2px solid #2c3e50;
+    box-shadow: 0 0 10px rgba(44, 62, 80, 0.3);
+}
+
+QFrame:flat {
+    /* Applied when frame has flat appearance */
+    border: none;
+    background-color: transparent;
+}
+
+QFrame:horizontal {
+    /* Applied to horizontal frames (HLine) */
+    min-height: 2px;
+    max-height: 10px;
+}
+
+QFrame:vertical {
+    /* Applied to vertical frames (VLine) */
+    min-width: 2px;
+    max-width: 10px;
+}
+
+/* ========== QFRAME SUB-CONTROLS ========== */
+QFrame::title {
+    /* Title of a grouped frame (like QGroupBox) */
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #ecf0f1;
+    padding: 0 10px;
+    border-radius: 4px;
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    margin-left: 10px;
+}
+
+QFrame::indicator {
+    /* Check indicator for checkable frames */
+    width: 16px;
+    height: 16px;
+    border: 2px solid #3498db;
+    border-radius: 3px;
+    background-color: white;
+}
+
+QFrame::indicator:checked {
+    /* Checked indicator */
+    background-color: #3498db;
+    border-color: #2980b9;
+}
+
+QFrame::indicator:unchecked {
+    /* Unchecked indicator */
+    background-color: white;
+    border-color: #bdc3c7;
+}
+
+QFrame::indicator:hover {
+    /* Indicator on hover */
+    border-color: #2980b9;
+}
+
+QFrame::drop-down {
+    /* Drop-down button area */
+    border: none;
+    background-color: #ecf0f1;
+    padding: 2px 8px;
+}
+
+QFrame::down-arrow {
+    /* Down arrow for drop-down */
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #2c3e50;
+    margin: 2px;
+}
+
+QFrame::up-arrow {
+    /* Up arrow */
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #2c3e50;
+    margin: 2px;
+}
+
+QFrame::left-arrow {
+    /* Left arrow */
+    image: none;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 5px solid #2c3e50;
+    margin: 2px;
+}
+
+QFrame::right-arrow {
+    /* Right arrow */
+    image: none;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #2c3e50;
+    margin: 2px;
+}
+
+QFrame::menu-indicator {
+    /* Menu indicator */
+    image: url(:/icons/down-arrow.png);
+    padding-right: 5px;
+}
+
+QFrame::branch {
+    /* Branch indicator for tree-like structures */
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+}
+
+QFrame::branch:has-children {
+    /* Branch with children */
+    background-color: #3498db;
+}
+
+QFrame::branch:has-siblings {
+    /* Branch with siblings */
+    border-left: 1px solid #3498db;
+}
+
+QFrame::branch:!has-children {
+    /* Branch without children */
+    background-color: #ecf0f1;
+}
+
+/* ========== QFRAME COMBINED PSEUDO-STATES ========== */
+QFrame:hover:pressed {
+    /* Hover AND pressed */
+    background-color: #d4e6f1;
+    transform: scale(0.97);
+}
+
+QFrame:focus:hover {
+    /* Focus AND hover */
+    outline: 3px solid #2980b9;
+    background-color: #ebf5fb;
+}
+
+QFrame:disabled:hover {
+    /* Disabled AND hover (no effect) */
+    background-color: #f0f0f0;
+    cursor: default;
+}
+
+QFrame:checked:hover {
+    /* Checked AND hover */
+    background-color: #a9dfbf;
+    border-color: #229954;
+}
+
+QFrame:selected:focus {
+    /* Selected AND focus */
+    background-color: #2e86c1;
+    color: white;
+    outline: 2px solid #1a5276;
+}
+
+/* ========== QFRAME WITH CHILDREN SELECTORS ========== */
+QFrame QLabel {
+    /* All QLabels inside a QFrame */
+    color: #2c3e50;
+    font-size: 12px;
+}
+
+QFrame > QLabel {
+    /* Direct child QLabels */
+    font-weight: bold;
+}
+
+QFrame QPushButton {
+    /* All QPushButtons inside a QFrame */
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+}
+
+QFrame QPushButton:hover {
+    /* QPushButton hover inside QFrame */
+    background-color: #2980b9;
+}
+
+QFrame QLineEdit {
+    /* QLineEdit inside QFrame */
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: white;
+}
+
+QFrame QLineEdit:focus {
+    /* QLineEdit focus inside QFrame */
+    border-color: #3498db;
+}
+
+/* ========== QFRAME WITH SPECIFIC CLASS ========== */
+QFrame.myCustomFrame {
+    /* Frame with specific object name or class */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                               stop:0 #3498db, stop:1 #2980b9);
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+}
+
+QFrame#uniqueFrame {
+    /* Frame with specific object name */
+    border: 3px solid #e74c3c;
+    border-radius: 15px;
+    background-color: #fadbd8;
+}
+
+/* ========== QFRAME WITH ATTRIBUTE SELECTORS ========== */
+QFrame[frameShape="Box"] {
+    /* Frame with specific frame shape property */
+    border: 3px solid #3498db;
+}
+
+QFrame[frameShadow="Raised"] {
+    /* Frame with raised shadow */
+    border-top: 3px solid #bdc3c7;
+    border-left: 3px solid #bdc3c7;
+    border-bottom: 3px solid #7f8c8d;
+    border-right: 3px solid #7f8c8d;
+}
+
+QFrame[frameShadow="Sunken"] {
+    /* Frame with sunken shadow */
+    border-top: 3px solid #7f8c8d;
+    border-left: 3px solid #7f8c8d;
+    border-bottom: 3px solid #bdc3c7;
+    border-right: 3px solid #bdc3c7;
+}
+
+/* ========== RESPONSIVE QFRAME (MEDIA QUERIES) ========== */
+QFrame[width > 500px] {
+    /* When frame width > 500px */
+    font-size: 18px;
+    padding: 30px;
+}
+
+QFrame[width < 300px] {
+    /* When frame width < 300px */
+    font-size: 10px;
+    padding: 5px;
+}
+
+/* ========== QFRAME WITH ANIMATIONS ========== */
+QFrame {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { background-color: #3498db; }
+    50% { background-color: #2980b9; }
+    100% { background-color: #3498db; }
+}
+
+@keyframes slideIn {
+    0% { transform: translateX(-100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(52, 152, 219, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+}
+
+/* ========== QFRAME WITH PSEUDO-ELEMENTS ========== */
+QFrame::before {
+    /* Pseudo-element before the content */
+    content: "▶ ";
+    color: #3498db;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+QFrame::after {
+    /* Pseudo-element after the content */
+    content: " ◀";
+    color: #3498db;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+QFrame::first-letter {
+    /* First letter styling */
+    font-size: 24px;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+QFrame::first-line {
+    /* First line styling */
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* ========== QFRAME WITH SPECIFIC PROPERTY VALUES ========== */
+QFrame[objectName="headerFrame"] {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                               stop:0 #2c3e50, stop:1 #34495e);
+    color: white;
+    padding: 15px;
+    border-radius: 0px;
+}
+
+QFrame[objectName="contentFrame"] {
+    background-color: white;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+}
+
+QFrame[objectName="footerFrame"] {
+    background-color: #ecf0f1;
+    border-top: 2px solid #bdc3c7;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/* ========== QFRAME WITH CUSTOM PROPERTIES ========== */
+QFrame {
+    qproperty-myCustomProperty: value;
+}
+
+/* ========== QFRAME THEMING (DARK/LIGHT MODE) ========== */
+QFrame.light-theme {
+    background-color: #ffffff;
+    color: #2c3e50;
+    border-color: #bdc3c7;
+}
+
+QFrame.dark-theme {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border-color: #7f8c8d;
+}
+
+/* ========== QFRAME WITH GRADIENT BACKGROUNDS ========== */
+QFrame.gradient-linear {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                               stop:0 #3498db, stop:0.5 #9b59b6, stop:1 #e74c3c);
+}
+
+QFrame.gradient-radial {
+    background: qradialgradient(cx:0.5, cy:0.5, radius:0.5,
+                               stop:0 #f1c40f, stop:0.5 #e67e22, stop:1 #e74c3c);
+}
+
+QFrame.gradient-conical {
+    background: qconicalgradient(cx:0.5, cy:0.5, angle:0,
+                                stop:0 #e74c3c, stop:0.25 #f1c40f,
+                                stop:0.5 #2ecc71, stop:0.75 #3498db,
+                                stop:1 #9b59b6);
+}
+
+/* ========== QFRAME WITH PATTERNS ========== */
+QFrame.pattern-dots {
+    background-color: #ecf0f1;
+    background-image: radial-gradient(circle, #bdc3c7 2px, transparent 2px);
+    background-size: 20px 20px;
+}
+
+QFrame.pattern-stripes {
+    background-color: #ecf0f1;
+    background-image: repeating-linear-gradient(45deg,
+                                                #bdc3c7 0px,
+                                                #bdc3c7 10px,
+                                                transparent 10px,
+                                                transparent 20px);
+}
+
+QFrame.pattern-grid {
+    background-color: #ecf0f1;
+    background-image: linear-gradient(#bdc3c7 1px, transparent 1px),
+                     linear-gradient(90deg, #bdc3c7 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* ========== COMPLETE QFRAME STYLING EXAMPLE ========== */
+QFrame {
+    /* Background */
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ffffff, stop:1 #f5f6fa);
+    
+    /* Border */
+    border: 2px solid #2c3e50;
+    border-radius: 10px;
+    border-top: 3px solid #3498db;
+    border-bottom: 3px solid #e74c3c;
+    
+    /* Shadow */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1),
+                inset 0 2px 4px rgba(255,255,255,0.8);
+    
+    /* Text */
+    color: #2c3e50;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+    
+    /* Spacing */
+    padding: 20px 25px;
+    margin: 10px;
+    
+    /* Size */
+    min-height: 60px;
+    min-width: 200px;
+    
+    /* Effects */
+    opacity: 0.95;
+    cursor: default;
+    transition: all 0.3s ease;
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+QFrame:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                               stop:0 #ebf5fb, stop:1 #d4e6f1);
+    border-color: #2980b9;
+    box-shadow: 0 6px 16px rgba(41, 128, 185, 0.3),
+                inset 0 2px 4px rgba(255,255,255,0.8);
+    transform: scale(1.02);
+    opacity: 1.0;
+}
+
+QFrame:pressed {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+QFrame:focus {
+    outline: 3px solid #3498db;
+    outline-offset: 3px;
+}
+
+QFrame:disabled {
+    background-color: #f0f0f0;
+    color: #999999;
+    border-color: #d0d0d0;
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+/* 
+     /* ============================================================
+               COMPLETE QFRAME QSS STYLING - 1 LABEL DEMO
+               ============================================================ */
+            
+            /* ========== MAIN FRAME ========== */
+            QFrame#dashboardMainFrame {
+                /* ---------- BACKGROUND ---------- */
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                           stop:0 #f8f9fa, stop:1 #e9ecef);
+                
+                /* ---------- BORDER ---------- */
+                border: 3px solid #2c3e50;
+                border-radius: 15px;
+                border-top: 5px solid #a2d7fa;
+                border-bottom: 5px solid #e74c3c;
+                border-left: 5px solid #27ae60;
+                border-right: 5px solid #f39c12;
+                
+                /* ---------- SHADOW ---------- */
+                box-shadow: 0 8px 32px rgba(0,0,0,0.2),
+                           inset 0 2px 4px rgba(255,255,255,0.8);
+                
+                /* ---------- TEXT ---------- */
+                color: #2c3e50;
+                font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+                font-size: 14px;
+                
+                /* ---------- SPACING ---------- */
+                padding: 40px;
+                margin: 20px;
+                
+                /* ---------- SIZE ---------- */
+                min-height: 300px;
+                min-width: 400px;
+                
+                /* ---------- EFFECTS ---------- */
+                opacity: 0.95;
+            }
+            
+            /* ========== HOVER STATE ========== */
+            QFrame#dashboardMainFrame:hover {
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                           stop:0 #ffffff, stop:1 #f1f3f5);
+                border-color: #2980b9;
+                opacity: 1.0;
+            }
+            
+            /* ========== FOCUS STATE ========== */
+            QFrame#dashboardMainFrame:focus {
+                outline: 3px solid #3498db;
+                outline-offset: 4px;
+            }
+            
+            /* ========== DISABLED STATE ========== */
+            QFrame#dashboardMainFrame:disabled {
+                background-color: #f0f0f0;
+                color: #999999;
+                border-color: #d0d0d0;
+                opacity: 0.5;
+            }
+            
+            /* ============================================================
+               LABEL STYLING - ALL POSSIBLE PROPERTIES
+               ============================================================ */
+            QLabel {
+                /* ---------- BACKGROUND ---------- */
+                background: qradialgradient(cx:0.5, cy:0.5, radius:0.5,
+                                           stop:0 #3498db, stop:0.5 #2980b9,
+                                           stop:1 #1a5276);
+                
+                /* ---------- BORDER ---------- */
+                border: 4px solid #ecf0f1;
+                border-radius: 20px;
+                border-style: double;
+                border-top-color: #f1c40f;
+                border-right-color: #2ecc71;
+                border-bottom-color: #e74c3c;
+                border-left-color: #9b59b6;
+                
+                /* ---------- FONT ---------- */
+                font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+                font-size: 28px;
+                font-weight: bold;
+                font-style: italic;
+                color: #ffffff;
+                
+                /* ---------- TEXT ---------- */
+                text-align: center;
+                text-decoration: none;
+                
+                /* ---------- SPACING ---------- */
+                padding: 30px 50px;
+                margin: 20px;
+                
+                /* ---------- SIZE ---------- */
+                min-width: 300px;
+                min-height: 100px;
+                max-width: 600px;
+                
+                /* ---------- EFFECTS ---------- */
+                opacity: 0.95;
+            }
+            
+            /* ========== LABEL PSEUDO-STATES ========== */
+            QLabel#dashboardLabel:hover {
+                background: qradialgradient(cx:0.5, cy:0.5, radius:0.5,
+                                           stop:0 #2ecc71, stop:0.5 #27ae60,
+                                           stop:1 #1e8449);
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg) scale(1.05);
+                box-shadow: 0 12px 36px rgba(46, 204, 113, 0.5),
+                           inset 0 4px 8px rgba(255,255,255,0.4);
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.5),
+                             0 0 30px rgba(46, 204, 113, 0.5);
+                opacity: 1.0;
+                border-color: #f1c40f;
+                letter-spacing: 6px;
+            }
+            
+            QLabel#dashboardLabel:pressed {
+                transform: perspective(500px) rotateX(0deg) rotateY(0deg) scale(0.95);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                background: qradialgradient(cx:0.5, cy:0.5, radius:0.5,
+                                           stop:0 #e74c3c, stop:0.5 #c0392b,
+                                           stop:1 #922b21);
+                transition: all 0.1s ease;
+            }
+            
+            QLabel#dashboardLabel:focus {
+                outline: 4px solid #f1c40f;
+                outline-offset: 6px;
+            }
+            
+            QLabel#dashboardLabel:disabled {
+                background: #bdc3c7;
+                color: #7f8c8d;
+                border-color: #95a5a6;
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+                text-shadow: none;
+                animation: none;
+            }
+            
+            /* ========== ANIMATIONS ========== */
+            @keyframes pulseGlow {
+                0% {
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.3),
+                               inset 0 4px 8px rgba(255,255,255,0.3),
+                               0 0 20px rgba(52, 152, 219, 0.3);
+                    transform: perspective(500px) rotateX(2deg) rotateY(-2deg) scale(1);
+                }
+                50% {
+                    box-shadow: 0 12px 36px rgba(52, 152, 219, 0.5),
+                               inset 0 4px 8px rgba(255,255,255,0.4),
+                               0 0 40px rgba(52, 152, 219, 0.6);
+                    transform: perspective(500px) rotateX(0deg) rotateY(0deg) scale(1.02);
+                }
+                100% {
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.3),
+                               inset 0 4px 8px rgba(255,255,255,0.3),
+                               0 0 20px rgba(52, 152, 219, 0.3);
+                    transform: perspective(500px) rotateX(2deg) rotateY(-2deg) scale(1);
+                }
+            }
+            
+            @keyframes slideIn {
+                0% {
+                    transform: translateX(-100%) rotate(-10deg);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateX(0) rotate(0deg);
+                    opacity: 1;
+                }
+            }
+            
+            /* ========== BEFORE AND AFTER PSEUDO-ELEMENTS ========== */
+            QLabel#dashboardLabel::before {
+                content: "✨ ";
+                color: #f1c40f;
+                font-size: 32px;
+                text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            }
+            
+            QLabel#dashboardLabel::after {
+                content: " ✨";
+                color: #f1c40f;
+                font-size: 32px;
+                text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            }
+            
+            QLabel#dashboardLabel::first-letter {
+                font-size: 42px;
+                color: #f1c40f;
+                text-shadow: 0 0 20px rgba(241, 196, 15, 0.8);
+            }
+            
+            /* ========== RESPONSIVE STYLING ========== */
+            QFrame#dashboardMainFrame[width > 800px] QLabel#dashboardLabel {
+                font-size: 36px;
+                padding: 40px 60px;
+                min-width: 400px;
+            }
+            
+            QFrame#dashboardMainFrame[width < 500px] QLabel#dashboardLabel {
+                font-size: 18px;
+                padding: 20px 30px;
+                min-width: 200px;
+                letter-spacing: 2px;
+            }
+            
+            QFrame#dashboardMainFrame[width < 500px] QLabel#dashboardLabel::before,
+            QFrame#dashboardMainFrame[width < 500px] QLabel#dashboardLabel::after {
+                font-size: 20px;
+                content: "⭐";
+            }
+            
+            /* ========== SCROLLBAR (if needed) ========== */
+            QScrollArea {
+                border: none;
+                background: transparent;
+            }
+            
+            QScrollBar:vertical {
+                background: #f8f9fa;
+                width: 10px;
+                border-radius: 5px;
+            }
+            
+            QScrollBar::handle:vertical {
+                background: #3498db;
+                border-radius: 5px;
+                min-height: 30px;
+            }
+            
+            QScrollBar::handle:vertical:hover {
+                background: #2980b9;
+            }
+            
+            QScrollBar::add-line:vertical,
+            QScrollBar::sub-line:vertical {
+                height: 0px;
+                border: none;
+                background: none;
+            }
+            
+            /* ========== TOOLTIP ========== */
+            QToolTip {
+                background: #2c3e50;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 16px;
+                font-size: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            }
+            
+            /* ========== CONTEXT MENU ========== */
+            QMenu {
+                background: white;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 5px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            }
+            
+            QMenu::item {
+                padding: 8px 24px;
+                border-radius: 4px;
+                color: #2c3e50;
+            }
+            
+            QMenu::item:selected {
+                background: #3498db;
+                color: white;
+            }
+
+ */
